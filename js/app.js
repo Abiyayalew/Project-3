@@ -37,7 +37,7 @@ var Player = function() {
     this.col = 2;                          
     this.row = 5;
     this.moveable = true;
-    this.sprite = 'images/char-boy.png'   
+    this.sprite = 'images/char-boy.png';  
 };
 
 // update the palyer postion and it return true when player reach in water.
@@ -86,27 +86,15 @@ Player.prototype.handleInput = function(key) {
     if(this.row > 5) this.row = 5;
 };
 
-// Change sprite property of palyer object by image selected by the user
+// Change sprite property of palyer object using image selected by the user
 function playerimgselector() {
     var e = document.getElementById("player");
     player.sprite = e.options[e.selectedIndex].value;
-};
+}
 
 // Return random integer number between min and max 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-// Check collision between enemy and palyer
-function checkCollisions(dt) {
-    var collision = false;
-    allEnemies.forEach(function(enemy) {
-        if(enemy.row === player.row){
-            if(enemy.x + 83 > player.x && enemy.x < player.x + 83){
-                collision = true;
-            }
-        }
-    });
-    return collision;
 }
 
 // Now instantiate your objects.

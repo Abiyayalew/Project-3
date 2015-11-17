@@ -65,7 +65,7 @@ var Engine = (function(global) {
        
         win.requestAnimationFrame(main);
 
-    };
+    }
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -95,7 +95,19 @@ var Engine = (function(global) {
             reset();
         }
     }
-
+    
+    // Check collision between enemy and palyer
+    function checkCollisions(dt) {
+        var collision = false;
+        allEnemies.forEach(function(enemy) {
+            if(enemy.row === player.row){
+                if(enemy.x + 83 > player.x && enemy.x < player.x + 83){
+                    collision = true;
+                }
+            }
+        });
+        return collision;
+    }
     
 
     /* This is called by the update function  and loops through all of the
