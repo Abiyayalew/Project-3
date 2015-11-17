@@ -2,7 +2,7 @@
 
 ## Loading the Game 
 * Download or clone from GitHub repository.   
-    * $ git clone  (https://github.com/Abiyayalew/Project-3)
+    * $ git clone   https://github.com/Abiyayalew/Project-3 
 *	Use **index.html** file from project folder as starting point for game.
 
 ## Usage 
