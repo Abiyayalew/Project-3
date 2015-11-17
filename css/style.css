@@ -1,0 +1,42 @@
+body {
+    text-align: center;
+    font-family: 'Helvetica', 'Arial', Sans-Serif ;
+}
+
+div {
+	position: relative;
+	margin: 0 auto;
+	width: 505px;
+	text-align: left;
+}
+
+#form {
+	font-weight:bold;
+	padding-bottom:20px;
+	text-align:left;
+}
+
+#wins {
+	padding-left: 10%;
+	color: red;
+	font-size:20px;
+}
+
+#best {
+    padding-left:10%;
+	color: white;
+	font-size:20px;
+}
+
+#img {
+	padding:0 0;
+}
+
+.lebel {
+	color :Blue;
+	background-color:lightgray;
+	text-align:left;
+}
+
+
+
