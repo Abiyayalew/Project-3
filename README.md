@@ -1,17 +1,16 @@
- # frontend-nanodegree-arcade-game #
+# frontend-nanodegree-arcade-game 
 
-## Loading the Game ##
+## Loading the Game 
 * Download or clone from GitHub repository.   
     * $ git clone  (https://github.com/Abiyayalew/Project-3)
 *	Use **index.html** file from project folder as starting point for game.
 
-## Usage ## 
+## Usage 
 
  * Run the **index.html** file. 
  * Select  player character from dropdown list.
  * Click start Button.
  * Use  `arrow key` to move player in every direction.
- * Start play the game using arrow key to move player in every direction.
  * player reach the water , you score point , the score can increase each 
    time the player reaches the water, game should be reset by moving the 
    player back to the initial location.
