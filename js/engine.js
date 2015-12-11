@@ -23,13 +23,8 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime,
-        winsE = document.getElementById('wins'),
-        bestE = document.getElementById('best'),
-        gem = document.getElementById('img'),
-        wins = 0, best = 0;
-
-
+        lastTime
+        
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
@@ -88,11 +83,13 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        updateEntities(dt);
-        if(checkCollisions()){
-            wins = 0;
-            score();
-            reset();
+        if (gamestate) {
+            updateEntities(dt);
+            if(checkCollisions()){
+                player.wins = 0;
+                score();
+                reset();
+            }
         }
     }
     
@@ -122,56 +119,15 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         if(player.update()){
-            wins++;
+            player.wins += 1;
+            console.log(player.wins);
             score();
             setTimeout(function(){
                 reset();
             }, 1000);
         }
     }
-    /* This is called by updateEntities function to display score 
-     */
-    function score() {
-        winsE.innerHTML = wins;
-        if(wins > best) {
-            best = wins;
-        }
-        bestE.innerHTML = best;
-
-        if (wins < 2) {
-            removeGems(gem);
-        }
-        else{
-            collectGems(gem);
-        }
-
-    }
-     // display gems on screen when palyer wins more than two in row
-    function collectGems(list){
-            var image = new Image();
-            switch (wins) {
-                case 2:
-                    image.src  = "images/Gem Blue.png";
-                    break;
-                case 4:
-                    image.src = "images/Gem Green.png";
-                    break;
-                case 6:
-                    image.src = "images/Gem Orange.png";
-                    break;
-                case 8:
-                    image.src = "images/Star.png";
-                    break;
-            }
-            list.appendChild(image);                 
-    }
-
-    // Remove gems from screen when  collision occurs 
-    function removeGems(list){
-        while (list.hasChildNodes()) {   
-            list.removeChild(list.firstChild);
-        }
-    }
+    
     
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
@@ -212,7 +168,7 @@ var Engine = (function(global) {
             }
         }
 
-
+        ctx.font = '36px Sans Serif';
         renderEntities();
     }
 
