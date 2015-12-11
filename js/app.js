@@ -1,4 +1,8 @@
  // Enemies our player must avoid
+ var winsE = document.getElementById('wins');
+ var bestE = document.getElementById('best');
+ var gem = document.getElementById('img');
+        
 var Enemy = function(row) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -32,20 +36,30 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-    this.x = 0;
-    this.y = 0;
-    this.col = 2;                          
-    this.row = 5;
+    this.x = 202;
+    this.y = 415;
     this.moveable = true;
-    this.sprite = 'images/char-boy.png';  
+    gamestate = false;
+    this.sprite = 'images/char-boy.png'; 
+    this.wins = 0;
+    this.best = 0;
 };
 
 // update the palyer postion and it return true when player reach in water.
 Player.prototype.update = function(dt) {
+     if (this.wins === 8) {
+        if(gamestate){
+            gamestate =false;
+        }
+     }
+
    if(this.moveable) {
         this.x = 101 * this.col;
-        this.y = 83 * this.row;    
+        this.y = 83 * this.row;
+        
     }
+    
+
     if(this.y < 83 && this.moveable) {
         this.moveable = false;
         return true;
@@ -56,13 +70,26 @@ Player.prototype.update = function(dt) {
  //draw the palyer on the screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    if (this.wins === 8) {
+        ctx.fillText('Game Over', 150, 345);
+        
+    }
 };
 // reset all player varibles 
 Player.prototype.reset = function() {
     this.col = 2;                          
     this.row = 5;
     this.moveable = true;  
+    
 };
+Player.prototype.Restart = function() {
+     if (gamestate === false) {
+         gamestate = ture;
+         score();
+     }
+     
+}
+
 
 // Handle input from keyboard
 Player.prototype.handleInput = function(key) {
@@ -79,6 +106,17 @@ Player.prototype.handleInput = function(key) {
         case 'down':
             this.row++;
             break;
+        case  'pause':
+            if (gamestate) {
+                gamestate = false;
+            }
+            else {
+                gamestate = true;
+            }
+            break;
+        case 'restart':
+            this.Restart();
+            break;
     }
     if(this.col < 0) this.col = 0;
     if(this.col > 4) this.col = 4;
@@ -86,15 +124,61 @@ Player.prototype.handleInput = function(key) {
     if(this.row > 5) this.row = 5;
 };
 
-// Change sprite property of palyer object using image selected by the user
+// Change sprite property of palyer object using image selected by the user and start game
 function playerimgselector() {
     var e = document.getElementById("player");
     player.sprite = e.options[e.selectedIndex].value;
+    if (gamestate === false) {
+        gamestate =true;
+    }
 }
 
 // Return random integer number between min and max 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+/* This is called by updateEntities function to display score 
+     */
+function score() {
+    winsE.innerHTML = player.wins;
+    if(player.wins > player.best) {
+        player.best = player.wins;
+    }
+    bestE.innerHTML = player.best;
+
+    if (player.wins < 2) {
+        removeGems(gem);
+    }
+    else{
+        collectGems(gem);
+    }
+
+}
+     // display gems on screen when palyer wins more than two in row
+function collectGems(list){
+    var image = new Image();
+    switch (player.wins) {
+        case 2:
+            image.src  = "images/Gem Blue.png";
+            break;
+        case 4:
+            image.src = "images/Gem Green.png";
+            break;
+        case 6:
+            image.src = "images/Gem Orange.png";
+            break;
+        case 8:
+            image.src = "images/Star.png";
+            break;
+        }
+    list.appendChild(image);                 
+}
+
+// Remove gems from screen when  collision occurs 
+function removeGems(list){
+    while (list.hasChildNodes()) {   
+        list.removeChild(list.firstChild);
+    }
 }
 
 // Now instantiate your objects.
@@ -115,8 +199,9 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
-
+        40: 'down',
+        80: 'pause',
+        82: 'restart'
     };
     
     player.handleInput(allowedKeys[e.keyCode]);
